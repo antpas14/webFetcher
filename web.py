@@ -2,10 +2,10 @@ from flask import Flask, request, jsonify
 from lib.webdriver import Webdriver
 
 app = Flask(__name__)
-webdriver = Webdriver()
 
 @app.route("/retrieve", methods=['POST'])
 def retrieve():
+    webdriver = Webdriver()
     content = request.json
     url = content['url']
     return webdriver.get_url(url)
