@@ -30,7 +30,7 @@ jobs:
       - name: Deploy image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./docker
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/web-fetcher:latest
