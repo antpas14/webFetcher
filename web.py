@@ -1,16 +1,14 @@
-from flask import Flask, request, jsonify
-from concurrent.futures import ThreadPoolExecutor
 import threading
+from concurrent.futures import ThreadPoolExecutor
+from flask import Flask, request
+
 
 from lib.webdriver import Webdriver
-
-app = Flask(__name__)
-executor = ThreadPoolExecutor()
 
 class WebdriverPool:
     def __init__(self, size):
         self.size = size
-        self.pool = [Webdriver() for i in range(size)]
+        self.pool = [Webdriver() for _ in range(size)]
         self.used_objects = set()
         self.condition = threading.Condition()
 
@@ -32,6 +30,9 @@ class WebdriverPool:
     def __len__(self):
         return len(self.pool)
 
+
+executor = ThreadPoolExecutor()
+app = Flask(__name__)
 pool = WebdriverPool(5)
 
 def scraping_function(url):
@@ -39,6 +40,7 @@ def scraping_function(url):
     result = webdriver.get_url(url)
     pool.release(webdriver)
     return result
+
 
 @app.route("/retrieve", methods=['POST'])
 def retrieve():
@@ -48,5 +50,7 @@ def retrieve():
     result = future.result()
     return result
 
+
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0',debug=True)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
