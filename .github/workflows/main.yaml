@@ -33,7 +33,7 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          build-args: --build-arg CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
+          build-args:  CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ github.sha }}
