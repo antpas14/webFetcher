@@ -1,16 +1,27 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+import os
+import configparser
 
+if os.environ.get('DOCKER'):
+  config_file = 'config.docker.ini'
+else:
+  config_file = 'config.local.ini'
+
+config = configparser.ConfigParser()
+config.read(config_file)
 class Webdriver:
   def __init__(self):
-    options = Options()
-    options.add_argument('--headless')
+    options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--disable-gpu')  # Last I checked this was necessary.
-    self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-extensions')
+
+    chrome_driver_path = config['webdriver']['chrome_driver_path']
+    service = Service(executable_path=chrome_driver_path)
+    self.driver = webdriver.Chrome(service=service, options=options)
 
   def get_url(self, url):
     self.driver.get(url)
