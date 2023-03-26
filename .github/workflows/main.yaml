@@ -30,4 +30,4 @@ jobs:
           context: ./
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ github.ref == 'refs/heads/main' && 'latest,' + github.sha || github.ref_slug }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ github.ref == 'refs/heads/main' && 'latest,' + github.sha || github.ref_slug }}
