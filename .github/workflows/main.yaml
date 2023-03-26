@@ -35,5 +35,6 @@ jobs:
           build-args: CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.SHORT_SHA }}
-            ${{ github.ref == 'refs/heads/main' && 'latest' || github.ref_slug }}
+            ${{ github.ref == 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.SHORT_SHA }}
+            ${{ github.ref == 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:latest
+            ${{ github.ref != 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ github.ref_slug }}
