@@ -29,3 +29,6 @@ curl --location --request POST 'localhost:5000/retrieve' \
     "url" : "https://www.google.com"
 }
 ```
+
+### License
+This work is distributed under MIT license.
