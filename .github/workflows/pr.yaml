@@ -1,9 +1,9 @@
-name: CI_main
+name: CI_pr
 
 on:
-  push:
+  pull_request:
     branches:
-      - 'main'
+      - main
 
 jobs:
   deploy:
@@ -35,5 +35,4 @@ jobs:
           build-args: CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
           push: true
           tags: |
-            ${{ github.ref == 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.SHORT_SHA }}
-            ${{ github.ref == 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:latest
+            ${{ github.ref != 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.BRANCH_NAME }}
