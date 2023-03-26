@@ -19,7 +19,7 @@ jobs:
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       - name: Set BRANCH_NAME
         run: | 
-          echo "BRANCH_NAME=$(git branch --show-current)" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
       - name: Any Name Bash Test Step
         run: |
           echo "SHORT_SHA: $SHORT_SHA"
