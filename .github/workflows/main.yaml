@@ -17,10 +17,9 @@ jobs:
       - name: Set CHROMIUM_VERSION from file
         run: |
           echo "CHROMIUM_VERSION=$(cat chromedriver_version.txt)" >> $GITHUB_ENV
-      - name: Any Name Bash Test Step
-        shell: bash
+      - name: Set SHORT_SHA
         run: |
-          echo "CHROMIUM_VERSION: $CHROMIUM_VERSION"
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -33,8 +32,8 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          build-args:  CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
+          build-args: CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ github.sha }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.SHORT_SHA }}
             ${{ github.ref == 'refs/heads/main' && 'latest' || github.ref_slug }}
