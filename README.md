@@ -15,6 +15,10 @@ This will build a Docker image for the app. Once the image is built, run the fol
 ```
 This will start the app on port 5000. You can then access the app by navigating to http://localhost:5000 in your web browser.
 
+Alternatively, is possible to use it locally by running `install_chromedriver.sh` which will download locally a chromedriver in the root project folder.
+Dependencies may be installed by running `pip install -r requirements.txt`
+It's not recommended as Chrome version installed on the system may not be compatible with the version used by the driver/
+
 ### Usage
 Once the app is running, you can enter the URL of the website you want to scrape in the url field in the request 
 
