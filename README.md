@@ -17,7 +17,7 @@ This will start the app on port 5000. You can then access the app by navigating 
 
 Alternatively, is possible to use it locally by running `install_chromedriver.sh` which will download locally a chromedriver in the root project folder.
 Dependencies may be installed by running `pip install -r requirements.txt`
-It's not recommended as Chrome version installed on the system may not be compatible with the version used by the driver/
+It's not recommended as Chrome version installed on the system may not be compatible with the version used by the driver
 
 ### Usage
 Once the app is running, you can enter the URL of the website you want to scrape in the url field in the request 
@@ -29,3 +29,6 @@ curl --location --request POST 'localhost:5000/retrieve' \
     "url" : "https://www.google.com"
 }
 ```
+
+### License
+This work is distributed under MIT license.
