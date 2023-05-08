@@ -11,8 +11,8 @@ ENV DOCKER=DOCKER
 RUN apk update && \
     apk add --no-cache \
     wait4ports \
-    chromium=${CHROMIUM_VERSION} \
-    chromium-chromedriver=${CHROMIUM_VERSION} \
+    chromium \
+    chromium-chromedriver \
     && rm -rf /var/cache/apk/*
 
 COPY requirements.txt requirements.txt
