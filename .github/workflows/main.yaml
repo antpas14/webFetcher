@@ -6,14 +6,11 @@ on:
       - 'main'
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set CHROMIUM_VERSION from file
-        run: |
-          echo "CHROMIUM_VERSION=$(cat chromedriver_version.txt)" >> $GITHUB_ENV
       - name: Set SHORT_SHA
         run: |
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
@@ -32,8 +29,10 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          build-args: CHROMIUM_VERSION=${{ env.CHROMIUM_VERSION }}
           push: true
           tags: |
             ${{ github.ref == 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.SHORT_SHA }}
             ${{ github.ref == 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:latest
+      -
+        name: Upload to code cov
+        uses: codecov/codecov-action@v3
