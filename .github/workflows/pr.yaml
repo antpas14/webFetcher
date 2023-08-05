@@ -30,4 +30,8 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: |
-            ${{ github.ref != 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.BRANCH_NAME }}
+            cat $GITHUB_ENV
+            echo $BRANCH_NAME
+            echo $MODIFIED_BRANCH_NAME
+          
+            ${{ github.ref != 'refs/heads/main' && secrets.DOCKER_HUB_USERNAME }}/web-fetcher:${{ env.MODIFIED_BRANCH_NAME }}
