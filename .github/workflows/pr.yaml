@@ -21,9 +21,11 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Sets MODIFIED_BRANCH_NAME
         env:
-          name: "${{env.BRANCH_NAME}}"
+          name: ${{env.BRANCH_NAME}}
         run: |
             echo "MODIFIED_BRANCH_NAME=${name/\//-}" >> $GITHUB_ENV
+            echo original branch name was $name
+
       - name: Debug step
         run: |
           cat $GITHUB_ENV
