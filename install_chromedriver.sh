@@ -1,18 +1,16 @@
 #!/bin/bash
 # This script is for local development and is used to download in the app path the necessary chromedriver
-# Need to be passed a version of desired chromedriver. It MUST be the same version of chrome used locally (it must be downloaded again if chrome is updated)
+# Need to have a google-chrome installed, will automatically fetch the required
 
-if [ "$#" -ne 1 ]; then
-    echo "Need to provide version number of chromedriver to download"
-    exit 1
-fi
-
-version=$1
-url="https://chromedriver.storage.googleapis.com/$version/chromedriver_linux64.zip"
+version=$(google-chrome --version | awk '{print $3}')
+url="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$version/linux64/chromedriver-linux64.zip" # for version < 115
+#url="https://chromedriver.storage.googleapis.com/$version/chromedriver_linux64.zip" # for version >= 115
 
 echo "Downloading Chromedriver version $version..."
 wget -q $url -O chromedriver.zip
-unzip -q -f chromedriver.zip -d .
+unzip -q chromedriver.zip -d .
+[ -d chromedriver-linux64 ] && mv chromedriver-linux64/chromedriver .
+rm -rf chromedriver-linux64
 rm chromedriver.zip
 
 echo "Chromedriver version $version downloaded and saved to $(pwd)/chromedriver"
