@@ -2,7 +2,6 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request
 
-
 from lib.webdriver import Webdriver
 
 class WebdriverPool:
@@ -35,18 +34,18 @@ executor = ThreadPoolExecutor()
 app = Flask(__name__)
 pool = WebdriverPool(5)
 
-def scraping_function(url):
+def scraping_function(url, cookies):
     webdriver = pool.wait_and_acquire()
-    result = webdriver.get_url(url)
+    result = webdriver.get_url(url, cookies)
     pool.release(webdriver)
     return result
-
 
 @app.route("/retrieve", methods=['POST'])
 def retrieve():
     content = request.json
     url = content['url']
-    future = executor.submit(scraping_function, url)
+    cookies = content.get('cookies', [])
+    future = executor.submit(scraping_function, url, cookies)
     result = future.result()
     return result
 
